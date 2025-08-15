@@ -1,4 +1,7 @@
 * Startup program for basic
+
+        include 'dev7_m_mincf'
+
 	xdef	sb_start
 
 	xref	bp_alvv,bp_chnew,bp_chnid,bp_init
@@ -10,6 +13,10 @@
 	xref	ut_con,ut_err,ut_mint,ut_mtext,ut_wrdef
 	xref.s	vers_sub
 
+        GENIF   QL_IIC <> 0
+        xref    ii_clock
+        ENDGEN
+        
 	include 'dev7_m_inc_assert'
 	include 'dev7_m_inc_bv'
 	include 'dev7_m_inc_err'
@@ -131,6 +138,21 @@ samech
 	tst.w	d1		have we opened channel #1 yet?
 	beq.s	samech		no - let it repeat the same id as #0
 nochans
+        GENIF   CMD_HIST <> 0   ; if HISTORY enabled
+        moveq   #-1,d1
+        moveq   #0,d3
+        lea     his_name(pc),a0 ; HISTORY name
+        moveq   #io.open,d0
+        trap    #2              ; try opening HISTORY channel
+        tst.l   d0              ; succeeded
+        bne.s   no_hist
+        move.l  a0,bv_hichn(a6) ; store channel ID
+no_hist
+        ENDGEN
+
+; Note: The above code is only executed for daughter BASIC interpreters
+; The HISTORY channel for the main BASIC is opened by the HISTORY init code
+; which is executed either from extrarom init or by LRESPRing from job 0
 
 * Build CMD$ as an initial variable
 
@@ -348,7 +370,12 @@ wrdef
 	jmp	ut_wrdef(pc)	return via window redefinition
 
 boot	dc.w	4,'boot'
+        GENIF   WIN_BOOT = 0
 mdv1_	dc.w	9,'mdv1_boot'
+        ENDGEN
+        GENIF   WIN_BOOT = 1
+mdv1_	dc.w	9,'win1_boot'
+        ENDGEN
 boot_len equ mdv1_-boot
 
 ini_disp
@@ -360,9 +387,16 @@ ini_disp
 	move.w	#vers_sub,-(sp) store sub-version
 	move.l	d2,-(sp)	store qdos version number
 	move.l	#10<<24!10<<16!'  ',-(sp) nl,nl,sp,sp
+        
+        GENIF   QL_IIC <> 0
 	jsr	ii_clock(pc)	get i2c clock if it's there
-;	moveq	#mt.rclck,d0
-;	trap	#1
+        ENDGEN
+        
+        GENIF   QL_IIC = 0
+	moveq	#mt.rclck,d0
+	trap	#1
+        ENDGEN
+        
 	move.l	sp,a1
 	sub.w	#2+36-10,sp
 	sub.l	a6,a1
@@ -420,6 +454,10 @@ ini_def
 wdef_len equ (tv_def-mon_def)/3
 
 cmds	dc.w	4,'CMD$'
+
+        GENIF   CMD_HIST <> 0
+his_name dc.w   12,'HISTORY_2048'
+        ENDGEN
 
 	vect4000 sb_start
 

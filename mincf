@@ -1,0 +1,5 @@
+* Configure features in Minerva
+
+QL_IIC   equ      0        Minerva MKII I2C, MUST disable if CMD_HIST = 1
+CMD_HIST equ      1        Command history using HISTORY device
+WIN_BOOT equ      0        Set to 1 to boot from win1_, else boot from mdv1_
