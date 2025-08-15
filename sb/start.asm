@@ -8,7 +8,6 @@
 	xref	bv_chnlx,bv_chnt,bv_namei,bv_om
 	xref	cn_date,cn_day
 	xref	ib_clvv
-	xref	ii_clock
 	xref	sb_unvr
 	xref	ut_con,ut_err,ut_mint,ut_mtext,ut_wrdef
 	xref.s	vers_sub
