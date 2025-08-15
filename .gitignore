@@ -33,4 +33,5 @@ $RECYCLE.BIN/
 *.bin
 *.exe
 *.debug
+*.err
 lib
