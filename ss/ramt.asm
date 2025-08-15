@@ -4,6 +4,7 @@
         xref    ss_init
         xref    tb_hex
 
+        include 'dev7_m_mincf'
         include 'dev7_m_inc_mc'
         include 'dev7_m_inc_pc'
         include 'dev7_m_inc_assert'
@@ -235,12 +236,16 @@ ss_ramt
         beq.s   d1set           if it's there, d1 is valid (we hope!)
         moveq   #-1,d7
         dbra    d7,*            waste some time in case of glitch
+
+        GENIF   QL_IIC <> 0
         lea     iicmd,a3        load command sequence address
         lea     iiret,a0        load return address
         move.w  ii.raw,a5       use vector to get to i2c code
         jmp     $4000(a5)       jump to i2c raw entry point address
 iiret
         beq.s   d1set
+        ENDGEN
+
         moveq   #8,d1           full reset, default tv mode single screen
 d1set
         move.l  d1,d5           set d5 for later and passing on to ss_init
@@ -318,6 +323,8 @@ qfin
         bne.s   qfin
         bra.s   gogogo
 
+        GENIF   QL_IIC <> 0
+
 iicmd
         dc.b    %11001110       trash device, send initialise
         dc.b    $a0/2,%11011110 set device
@@ -325,5 +332,7 @@ iicmd
         dc.b    4-1,%10110000   START/read d1 four bytes, NAK last
         dc.b    3,%10100100,22,0,8 start/write address, kill lsw boot, STOP
         dc.b    $ff             terminate sequence
+        
+        ENDGEN
 
         end
