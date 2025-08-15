@@ -21,6 +21,7 @@ map text eol=lf
 *.map text eol=lf
 m/inc/* text eol=lf
 m/mincf text eol=lf
+cct text eol=lf
 *.bin binary
 *.rom binary
 *.rel binary
