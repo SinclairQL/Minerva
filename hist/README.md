@@ -7,7 +7,7 @@ The HISTORY device can be used as any other I/O device by OPENing a channel to i
 
 In this implementation, some code has been added to allow the HISTORY device to be used by Minerva. On loading the code (either from the Q68 extension ROM or by LRESPRing hist_bin from a BOOT file), it checks if Minerva's BASIC is already using the HISTORY device. If not, it opens a HISTORY channel and installs it into the BASIC system. If any MultiBASIC interpreters are subsequently started, they will open their own HISTORY channel - thus it is not necessary (and not even possible!) to load another copy of hist_bin in their BOOT file.
 
-Note that, in order to use the HISTORY feature in the standalone (non-Q68) version of Minerva, you need to replace your Minerva ROM image by the specially built version 1.98j1 image. This has additional code to use the HISTORY device but is otherwise identical to existing 1.98 builds; however the I2C driver has been removed to make room for it.
+Note that, in order to use the HISTORY feature in the standalone (non-Q68) version of Minerva, you need to replace your Minerva ROM image by the specially built version 1.98j3 image. This has additional code to use the HISTORY device but is otherwise identical to existing 1.98 builds; however the I2C driver has been removed to make room for it.
 
 Building the HISTORY device
 ---------------------------

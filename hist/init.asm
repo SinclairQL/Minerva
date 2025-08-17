@@ -22,12 +22,13 @@
 ;
 ; 2025-07-28 First version
 ;
-; 2025-08-11 Now accepts foreign language versions (1A98 - 1Z99) too.
+; 2025-08-11 v1.01 Now accepts foreign language versions (1A98 - 1Z99) too.
+;
+; 2025-08-12 v1.02 corrected error message (cosmetic)
 
-version setstr  1.01
+version setstr  1.02
 
         include m_mincf
-        include extrarom_userdefs
         include m_inc_bv
         include m_inc_sv
         include m_inc_io
@@ -92,12 +93,12 @@ his_exit
         
 his_name string$ 'HISTORY_2048'
 his_msg  string$ {'HISTORY device for Minerva v[version] JB 2025',10}
-his_erms string$ {'*** Cannot initialise HISTORY device!',10,'(maybe incorrect Minerva version?',10}
+his_erms string$ {'*** Cannot initialise HISTORY device!',10,'(maybe incorrect Minerva version?)',10}
 
 his_init equ    *
 
 * Now include the HISTORY_rext built from SMSQ/E source
  
-        incbin 'hist_rext'
+        incbin 'm_hist_rext'
 
         end

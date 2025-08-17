@@ -39,11 +39,11 @@
 480   END IF
 490   PRINT#0;"Building HISTORY..."
 500   EW QMake;"\C dev7_m_hist \B"
-510   IF FTEST(QMake_out$ & "hist_bin")=0 THEN
-520     COPY_O QMake_out$ & "hist_bin" TO "dev7_m_hist_bin"
+510   IF FTEST(QMake_out$ & "m_hist_bin")=0 THEN
+520     COPY_O QMake_out$ & "m_hist_bin" TO "dev7_m_hist_bin"
 530   END IF
-540   IF FTEST(QMake_out$ & "hist_map")=0 THEN
-550     COPY_O QMake_out$ & "hist_map" TO "dev7_m_hist_map"
+540   IF FTEST(QMake_out$ & "m_hist_map")=0 THEN
+550     COPY_O QMake_out$ & "m_hist_map" TO "dev7_m_hist_map"
 560   END IF
 570 END DEFine make_history
 580 :
@@ -78,7 +78,7 @@
 870 END DEFine make_clean
 880 :
 890 DEFine PROCedure Make
-900   make_rom "1.98" & subver$: make_rom "1G98" & subver$
+900   make_rom "1.98" & subver$: make_rom "1G98" & subver$: make_history
 910 END DEFine Make
 920 :
 930 CLS: PRINT "*** Minerva Make program ***"
