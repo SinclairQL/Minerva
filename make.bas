@@ -95,4 +95,4 @@
 1040 IF FTEST(PROGD$ & "QMake") <> 0: PRINT\"** ERROR: QMake not found in your PROGD$ (";PROGD$;")!"
 1050 DATA "m_bf","m_bp","m_bv","m_ca","m_cn","m_cs","m_dd","m_gw","m_ib","m_ii","m_io","m_ip","m_md"
 1060 DATA "m_mm","m_mt","m_nd","m_od","m_pa","m_pf","m_q68","m_ri","m_sb","m_sd","m_ss","m_tb","m_ut"
-1070 DATA "m_tb_english","m_tb_german","m_hist"
+1070 DATA "m_tb_english","m_tb_german","m_ROM","m_hist"

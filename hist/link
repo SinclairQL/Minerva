@@ -1,5 +1,5 @@
 filetype 0
 
-program hist_bin
+program dev7_m_hist_bin
 
-input   m_hist_init_rel
+input   dev7_m_hist_init_rel
