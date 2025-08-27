@@ -17,11 +17,25 @@ A German version for use with German keyboard layouts is also included, which is
 
 Finally, there are two variants marked '1.98j3-w' and '1G98j3-w'. The only difference is that they try to boot from 'win1_boot' rather than 'mdv1_boot'. These can be used in emulators such as Qemulator or sQLux, so that patching by the emulator itself to boot from win1_ is not necessary.
 
-Bugs
-----
-Some people have reported problems when using these ROMs in QLs with Miracle Systems Gold Card or Super Gold Card, usually resulting in failure to boot. These are likely due to the patching of the code by the ROM in the (Super) Gold Card and are under investigation.
+Incompatibilities with Miracle Systems Gold Card and Super Gold Card
+--------------------------------------------------------------------
+Gold Cards with older versions (at least 2.24, 2.28, and 2.32) are known to be incompatible with this Minerva version, resulting in failure to boot. This is likely due to the patching of the code by the ROM in the (Super) Gold Card and is under investigation. Do not install this Minerva version if you intend to use it with these Gold Card versions, or any Super Gold Card version. Gold Cards (not Super Gold Cards) with ROM version 2.49 have been verified to boot correctly.
 
-Gold Cards (not Super Gold Cards) with ROM version 2.49 are reported to boot correctly.
+If you have a Gold Card with ROM version earlier than 2.49 and are unable to upgrade, there might be a possibility to boot both Minerva and Gold Card from ROM images on disk, using the following procedure:
+
+- Download the Gold Card 2.49 ROM image from https://dilwyn.theqlforum.com/qlrom/SGCandGC249.zip
+- Boot using the following BASIC statements (amending the file names as appropriate):
+
+~~~
+a=RESPR(114688): REMark do not use ALCHP, a needs to be at least $50000
+LBYTES SGCandGC249_bin,a
+LBYTES Minerva_1.98j3_bin,a+65536
+POKE a+49201,30
+POKE_L a+49234,a+65536
+CALL a
+~~~
+
+*Note:* This is not guaranteed to work and may crash machines with certain hardware revisions. Having a peripheral in the ROM slot may also be of influence.
 
 Building your own version
 -------------------------
@@ -34,7 +48,7 @@ The complete ROM image is ready-built. However, if you want to rebuild Minerva, 
 
 You might need to do some configuration on the QMAC, QLINK, and QMake programs using the menuconfig program to get the device and directory path right. The original build used 'win1_' as base device for the whole repository, which was hardcoded in all .asm and cct files. I have stripped the base device from all 'include' directives in the .asm files, which should simplify building on any platform provided that you set the default data directory (DATA_USE statement) correctly.
 
-Unfortunately, the cct files in each subdirectory of the M_ directory which contain the names of the individual files to be assembled and concatenated to 'lib' files must contain the full path to all '_rel' files, including the base device. Currently, this base device is set to 'dev7_'. You can use the DEV_USE command to make the dev7_ virtual device point to a directory on a physical device.
+Unfortunately, the cct files in each subdirectory of the M_ directory which contain the names of the individual files to be assembled and concatenated to 'lib' files must contain the full path to all '\_rel' files, including the base device. Currently, this base device is set to 'dev7_'. You can use the DEV_USE command to make the dev7_ virtual device point to a directory on a physical device.
 
 Note that it is not recommended to use a QDOS/SMSQE subdirectory as base directory, as some utilities (notably make_clean) might fail when traversing the subdirectories. It is best to either point the DEV7_ device to the base (Windows) directory of the repository, or use a separate virtual WIN drive for the repository so you can use 'WINx_' as base directory.
 
