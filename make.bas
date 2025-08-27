@@ -1,6 +1,6 @@
-100 DEV_USE 7,DATAD$
+100 :
 110 QMake_out$="ram8_"
-120 subver$="j3"
+120 subver$="j4"
 130 :
 140 DEFine PROCedure make_minerva(v$)
 150   lang$=""

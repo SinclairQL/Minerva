@@ -6,6 +6,6 @@
 
 vers_major equ	'1'
 vers_minor equ	'98'
-vers_sub   equ	'j3'
+vers_sub   equ	'j4'
 
 	end

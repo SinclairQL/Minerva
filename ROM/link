@@ -25,5 +25,5 @@ input dev7_m_bf_lib
 input dev7_m_ib_lib
 input dev7_m_gw_lib
 input dev7_m_cs_lib
-; input dev7_m_ii_lib
+input dev7_m_ii_lib
 input dev7_m_tb_#0_lib

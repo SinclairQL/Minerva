@@ -9,33 +9,15 @@ This is a fork of Marcel Kilgus's 1.98a1 version, with added support for SMSQ/E-
 
 You can now use the arrow up/down keys to browse through the command history, just like in SMSQ/E. Also, the HISTORY device has been backported from SMSQ/E so it's now also available in Minerva. Note that you can still use the AUTO command as before to enter auto-numbered lines and browse through them, in case you don't have the much more advanced Toolkit II's ED full-screen editor available.
 
-In order to use the command history feature, the hist_bin file has to be loaded separately from your BOOT file (using the LRESPR command). Also, the I2C support for Minerva MKII has been removed to make room for the command history code.
+In order to use the command history feature, the hist_bin file supplied in the distribution .zip file has to be loaded separately from your BOOT file (using the LRESPR command).
+
+Also, the I2C driver for Minerva MKII has been removed to make room for the command history code. However, when using the Miracle Systems Gold Card or Super Gold Card, the placeholder routines for vectors $170 and $172 will be patched and are expected to work again.
 
 To distinguish this Minerva build from other builds, a new subversion has been added. I'm following the convention introduced by Marcel Kilgus. VER$(-2) and MT.INF still return "1.98" for compatibility reasons, but the subversion may be read from the previously unused extended system variable at offset $4A (i.e. PEEK_W(!124!74)). The new subversion will be from 'j1' onwards. Note that this system variable has actually 4 bytes, so the extra 2 bytes at $4C may be used in the future if I might run out of single digits!
 
 A German version for use with German keyboard layouts is also included, which is marked by having version string '1G98' rather than '1.98'.
 
 Finally, there are two variants marked '1.98j3-w' and '1G98j3-w'. The only difference is that they try to boot from 'win1_boot' rather than 'mdv1_boot'. These can be used in emulators such as Qemulator or sQLux, so that patching by the emulator itself to boot from win1_ is not necessary.
-
-Incompatibilities with Miracle Systems Gold Card and Super Gold Card
---------------------------------------------------------------------
-Gold Cards with older versions (at least 2.24, 2.28, and 2.32) are known to be incompatible with this Minerva version, resulting in failure to boot. This is likely due to the patching of the code by the ROM in the (Super) Gold Card and is under investigation. Do not install this Minerva version if you intend to use it with these Gold Card versions, or any Super Gold Card version. Gold Cards (not Super Gold Cards) with ROM version 2.49 have been verified to boot correctly.
-
-If you have a Gold Card with ROM version earlier than 2.49 and are unable to upgrade, there might be a possibility to boot both Minerva and Gold Card from ROM images on disk, using the following procedure:
-
-- Download the Gold Card 2.49 ROM image from https://dilwyn.theqlforum.com/qlrom/SGCandGC249.zip
-- Boot using the following BASIC statements (amending the file names as appropriate):
-
-~~~
-a=RESPR(114688): REMark do not use ALCHP, a needs to be at least $50000
-LBYTES SGCandGC249_bin,a
-LBYTES Minerva_1.98j3_bin,a+65536
-POKE a+49201,30
-POKE_L a+49234,a+65536
-CALL a
-~~~
-
-*Note:* This is not guaranteed to work and may crash machines with certain hardware revisions. Having a peripheral in the ROM slot may also be of influence.
 
 Building your own version
 -------------------------
@@ -54,7 +36,6 @@ Note that it is not recommended to use a QDOS/SMSQE subdirectory as base directo
 
 Using the Make.bas program
 --------------------------
-
 LRUN the program first (this will set some variables right and display the usage screen). The program contains some procedures which can be invoked separately to build parts of the package, or simply enter 'Make' to build the complete package.
 
 - make_minerva 'version': This builds the 48K Minerva ROM. Currently, 'version' should be '1.98jx' for English or '1G98jx' for German version.
@@ -65,7 +46,6 @@ LRUN the program first (this will set some variables right and display the usage
 
 The mincf configuration file
 ----------------------------
-
 This text file is used to configure certain hardware features of Minerva while building:
 
 - QL_IIC   Set to 1 for I2C support, 0 for no I2C support. Mutually exclusive with CMD_HIST, else the size of the ROM code will be too large (>48K)
@@ -73,3 +53,10 @@ This text file is used to configure certain hardware features of Minerva while b
 - WIN_BOOT Set to 1 to boot from win1_, else boot from mdv1_
 
 After editing this file, you MUST rebuild the entire Minerva ROM by issueing a 'make_clean'.
+
+Version history
+---------------
+- v1.98j4/1G98j4: Fixed incompatibilities with (Super) Gold Cards. Restored I2C RTC code, vectors $170 and $172 now point to placeholder code which will be patched by (S)GC to working code.
+- v1.98j3/1G98j3: Dropped dependency on Q68 version and forked v1.98a1 source tree from https://github.com/MarcelKilgus/Minerva.
+- v1.98j2/1G98j2: Fixed major error in allocating sx_\* extended system variables.
+- v1.98j1/1G98j1: First release, build from Minerva4Q68.

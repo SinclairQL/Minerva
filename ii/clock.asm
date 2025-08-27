@@ -3,6 +3,7 @@
 
         xref    bf_datez
 
+        include 'dev7_m_mincf'
         include 'dev7_m_inc_bv'
         include 'dev7_m_inc_mt'
         include 'dev7_m_inc_sv'

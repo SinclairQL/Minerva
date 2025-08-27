@@ -28,12 +28,12 @@
 
 version setstr  1.02
 
-        include m_mincf
-        include m_inc_bv
-        include m_inc_sv
-        include m_inc_io
-        include m_inc_mt
-        include m_inc_vect
+        include dev7_m_mincf
+        include dev7_m_inc_bv
+        include dev7_m_inc_sv
+        include dev7_m_inc_io
+        include dev7_m_inc_mt
+        include dev7_m_inc_vect
 
 string$	macro	a
 	noexpand
@@ -99,6 +99,6 @@ his_init equ    *
 
 * Now include the HISTORY_rext built from SMSQ/E source
  
-        incbin 'm_hist_rext'
+        incbin 'dev7_m_hist_rext'
 
         end

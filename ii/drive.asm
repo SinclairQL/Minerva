@@ -1,4 +1,6 @@
 * Inter-integrated circuit (IIC or I squared C) bus driver
+
+        include 'dev7_m_mincf'
         include 'dev7_m_inc_err'
         include 'dev7_m_inc_vect4000'
 
@@ -214,6 +216,25 @@
 * break up the, so far, pure uniformity of bit access rate.
 
         section ii_drive
+        
+        GENIF   QL_IIC = 0
+
+* These are two placeholder routines when assembling without I2C support.
+* They get overwritten with a jmp.l instruction when the (Super) Gold Card
+* has been installed (restoring functionality).
+
+ii_drive
+        nop
+        moveq   #err.bp,d0
+        rts
+ii_raw  
+        nop
+        moveq   #err.bp,d0
+        rts
+        
+        ENDGEN
+        
+        GENIF   QL_IIC <> 0
 
 * Front end for somewhat less destructive access. Preserves d3-d6, a0/a2/a4-a5.
 drv_end
@@ -461,6 +482,8 @@ verok
         bcc.l   new_cmd
         moveq   #0,d0
         jmp     (a0)            return ok
+
+        ENDGEN
 
         vect4000 ii_drive,ii_raw
 

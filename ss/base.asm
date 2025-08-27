@@ -114,13 +114,13 @@ s vec.w mm$move  mm$mrtoa mm$mator mm$mrtor ; $158 - $15e
 s vec.w ss$wser  ss$rser  md$selec md$desel ; $160 - $166
 s vec.w mm$clear mm$clrr  io$qsetl k.m1     ; $168 - $16e
 
-        GENIF   QL_IIC <> 0
+;        GENIF   QL_IIC <> 0
 s vec.w ii$raw   ii$drive k.m1     k.m1     ; $170 - $176
-        ENDGEN
+;        ENDGEN
         
-        GENIF   QL_IIC = 0
-s vec.w k.m1     k.m1     k.m1     k.m1     ; $170 - $176
-        ENDGEN
+;        GENIF   QL_IIC = 0
+;s vec.w k.m1     k.m1     k.m1     k.m1     ; $170 - $176
+;        ENDGEN
 
 *******************************************************************************
 * The tk2 res_128 command expects find itself neatly in the ram_test code by

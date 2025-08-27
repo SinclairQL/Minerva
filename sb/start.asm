@@ -12,9 +12,9 @@
 	xref	ut_con,ut_err,ut_mint,ut_mtext,ut_wrdef
 	xref.s	vers_sub
 
-        GENIF   QL_IIC <> 0
+;        GENIF   QL_IIC <> 0
         xref    ii_clock
-        ENDGEN
+;        ENDGEN
         
 	include 'dev7_m_inc_assert'
 	include 'dev7_m_inc_bv'
@@ -386,16 +386,7 @@ ini_disp
 	move.w	#vers_sub,-(sp) store sub-version
 	move.l	d2,-(sp)	store qdos version number
 	move.l	#10<<24!10<<16!'  ',-(sp) nl,nl,sp,sp
-        
-        GENIF   QL_IIC <> 0
 	jsr	ii_clock(pc)	get i2c clock if it's there
-        ENDGEN
-        
-        GENIF   QL_IIC = 0
-	moveq	#mt.rclck,d0
-	trap	#1
-        ENDGEN
-        
 	move.l	sp,a1
 	sub.w	#2+36-10,sp
 	sub.l	a6,a1
